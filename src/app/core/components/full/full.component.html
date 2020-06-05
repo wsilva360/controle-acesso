@@ -1,0 +1,228 @@
+<!-- Navigation Bar-->
+<header id="topnav">
+    <div class="topbar-main">
+        <div class="container">
+
+            <!-- Logo container -->
+            <div>
+                <a routerLink="/dashboard">
+                    <div class="logoimg">
+                        <img src="assets/images/iamspe/logo_iamspe2.png"  />
+                    </div>
+                    <div class="logo">
+                        <div>
+                            <span>Iamspe</span>
+                        </div>
+                        <div class="logodesc">
+                            A saúde do servidor
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- End Logo container-->
+
+            <div class="menu-extras">
+
+                <ul class="nav navbar-nav navbar-right pull-right">
+                    <li>
+                        <app-header-search></app-header-search>
+                    </li>
+                    
+                    <li *ngIf="!isHidden" class="dropdown hidden-xs">
+                        <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
+                            <i class="md md-notifications"></i> 
+                            <span class="badge badge-xs badge-pink">3</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg">
+                            <li class="text-center notifi-title">Notificação</li>
+                            <li class="list-group nicescroll notification-list">
+                                <!-- list item-->
+                                <a href="javascript:void(0);" class="list-group-item">
+                                    <div class="media">
+                                        <div class="pull-left p-r-10">
+                                            <em class="fa fa-diamond noti-primary"></em>
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">A new order has been placed A new
+                                                order has been placed</h5>
+                                            <p class="m-0">
+                                                <small>There are new settings available</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                        
+                                <!-- list item-->
+                                <a href="javascript:void(0);" class="list-group-item">
+                                    <div class="media">
+                                        <div class="pull-left p-r-10">
+                                            <em class="fa fa-cog noti-warning"></em>
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">New settings</h5>
+                                            <p class="m-0">
+                                                <small>There are new settings available</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                        
+                                <!-- list item-->
+                                <a href="javascript:void(0);" class="list-group-item">
+                                    <div class="media">
+                                        <div class="pull-left p-r-10">
+                                            <em class="fa fa-bell-o noti-success"></em>
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">Updates</h5>
+                                            <p class="m-0">
+                                                <small>There are <span class="text-primary">2</span> new
+                                                    updates available
+                                                </small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                        
+                            </li>
+                        
+                            <li>
+                                <a href="javascript:void(0);" class=" text-right">
+                                    <small><b>Ver todas as notificações...</b></small>
+                                </a>
+                            </li>
+                        
+                        </ul>
+                    </li>
+
+                    <li *ngIf="!isHidden" class="dropdown hidden-xs">
+                        <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
+                            <i class="md md-notifications"></i> 
+                            <span class="badge badge-xs badge-pink">3</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg">
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle waves-effect waves-light profile" data-toggle="dropdown" aria-expanded="true"><img src="assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                        <ul class="dropdown-menu">
+                            <li *ngIf="!isHidden"><a routerLink="/beneficiario/perfil"><i class="ti-user m-r-5"></i> Perfil</a></li>
+                            <li *ngIf="!isHidden"><a routerLink="/configuracao"><i class="ti-settings m-r-5"></i> Configurações</a></li>
+                            <li *ngIf="!isHidden"><a href="javascript:void(0)"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
+                            <li><a routerLink="/login" (click)=logOut();><i class="ti-power-off m-r-5"></i> Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="menu-item">
+                    <!-- Mobile menu toggle-->
+                    <a class="navbar-toggle">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                    <!-- End mobile menu toggle-->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End topbar -->
+
+    <!-- Navbar Start -->
+    <div class="navbar-custom">
+        
+        <div class="container">
+            <div id="navigation">
+                <!-- Navigation Menu-->
+                <ul class="navigation-menu">
+                    <li class="has-submenu" routerLinkActive="active">
+                        <a routerLink="/dashboard"><i class="md md-dashboard"></i>Dashboard</a>
+                    </li>
+
+                    <!--li class="has-submenu">
+                        <a href="#"><i class="fa fa-child"></i>Beneficiário</a>
+                        <ul class="submenu">
+                            <li><a href="ui-buttons.html">Buttons</a></li>
+                        </ul>
+                    </li>
+        
+                    <li class="has-submenu">
+                        <a href="#"><i class="fa fa-calendar"></i>Agendamento</a>
+                        <ul class="submenu">
+                            <li><a href="components-grid.html">Grid</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="has-submenu">
+                        <a href="#"><i class="fa fa-folder"></i>Exames</a>
+                    </li>
+                    
+                    <li class="has-submenu" routerLinkActive="active">
+                        <a id="menuresp"><i class="fa fa-money"></i>Financeiro</a>
+                        <ul class="submenu megamenu">
+                            <li routerLinkActive="active"><a routerLink="/financeiro/boletos">Gerar Boleto</a></li>
+                            <li routerLinkActive="active"><a routerLink="/financeiro/declaracoes">Declaração Imposto de Renda</a></li>
+                        </ul>
+                    </li-->
+                    <li class="has-submenu" routerLinkActive="active">
+                        <a id="menuresp"><i class="md md-invert-colors-on"></i>Beneficiário</a>
+                        <ul class="submenu">
+                            <li *ngIf="!isHidden" routerLinkActive="active"><a routerLink="/beneficiario/atualizacao-cadastral">Família</a></li>
+                            <li routerLinkActive="active"><a routerLink="/beneficiario/carteirinha-digital">Carteirinha Digital</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu" routerLinkActive="active">
+                        <a id="menuresp"><i class="md md-invert-colors-on"></i>Financeiro</a>
+                        <ul class="submenu">
+                            <li routerLinkActive="active"><a routerLink="/financeiro/boletos">Gerar 2º Via do Boleto</a></li>
+                            <li routerLinkActive="active"><a routerLink="/financeiro/declaracoes">Declaração Imposto de Renda</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu" routerLinkActive="active">
+                        <a id="menuresp"><i class="md md-videocam"></i>Tele Medicina</a>
+                        <ul class="submenu">
+                            <li routerLinkActive="active"><a routerLink="/beneficiario/tele-medicina">Consulta Agendada</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- End navigation menu -->
+            </div>
+        </div>
+            
+    </div>
+</header>
+<!-- End Navigation Bar-->
+
+<!-- ============================================================== -->
+<!-- Wrapper - Principal Pages                                      -->
+<!-- ============================================================== -->
+<div class="wrapper">
+    <div class="container">
+
+        <router-outlet></router-outlet>
+
+    </div> <!-- end container -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper - Principal Pages                                  -->
+<!-- ============================================================== -->
+
+
+<!-- Footer -->
+<footer class="footer text-right">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                2020 © IAMSPE | Instituto de Assistência Médica ao Servidor Público Estadual de São Paulo
+            </div>
+            
+        </div>
+    </div>
+</footer>
+<!-- End Footer -->
+

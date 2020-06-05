@@ -18,15 +18,45 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/plugins/jquery-circliful/css/jquery.circliful.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/core.css",
+              "src/assets/css/components.css",
+              "src/assets/css/icons.css",
+              "src/assets/css/pages.css",
+              "src/assets/css/menu.css",
+              "src/assets/css/responsive.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/detect.js",
+              "src/assets/js/fastclick.js",
+              "src/assets/js/jquery.blockUI.js",
+              "src/assets/js/waves.js",
+              "src/assets/js/wow.min.js",
+              "src/assets/js/jquery.nicescroll.js",
+              "src/assets/js/jquery.scrollTo.min.js",
+              "src/assets/plugins/waypoints/lib/jquery.waypoints.js",
+              "src/assets/plugins/counterup/jquery.counterup.min.js",
+              "src/assets/plugins/jquery-circliful/js/jquery.circliful.min.js",
+              "src/assets/plugins/jquery-sparkline/jquery.sparkline.min.js",
+              "src/assets/plugins/skyicons/skycons.min.js",
+              "src/assets/pages/jquery.dashboard.js",
+              "./src/assets/js/jquery.core.js",
+
+              "src/assets/js/teste_chat.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -41,7 +71,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -120,6 +149,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "casAuthIAMSPE"
+    }
+  },
+  "defaultProject": "casAuthIAMSPE",
+  "cli": {
+    "analytics": "a0dc8ddf-13c0-4843-b809-c66e5022c6ce"
+  }
 }
