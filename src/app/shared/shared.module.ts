@@ -12,7 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { LightboxModule } from 'primeng/lightbox';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   declarations: [
@@ -26,6 +26,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ReactiveFormsModule,
     RouterModule,
     //DataTablesModule,
+    PasswordModule,
     DialogModule,
     ConfirmDialogModule,
     TableModule,
@@ -38,6 +39,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ReactiveFormsModule,
     RouterModule,
     //DataTablesModule,
+    PasswordModule,
     DialogModule,
     ConfirmDialogModule,
     TableModule,

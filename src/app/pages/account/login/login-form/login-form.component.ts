@@ -15,7 +15,7 @@ export class LoginFormComponent implements OnInit  {
 
   // VARIÁVEIS
   loading = false;
-
+  isTextFieldType: boolean = false;
   tokenCliente: string;
   urlOrigem: string;
   idCliente: string;
@@ -25,6 +25,7 @@ export class LoginFormComponent implements OnInit  {
   public resourceForm: FormGroup;
   public formSubmitAttempt: boolean;
   submittingForm: boolean;
+
 
   // MASCARA
   public mascaraCpf = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
@@ -47,41 +48,8 @@ export class LoginFormComponent implements OnInit  {
       protected authLoginService: AuthLoginService,
       //private alertService: AlertService
   ) {
-
     console.log("[INFO][LOGIN-FORM] - [CONSTRUTOR]");
     console.log("[INFO][LOGIN-FORM] - [CURRENTE USER VALUE]: " + this.authLoginService.currentUserValue);
-
-    // redirect to home if already logged in
-    // VOLTAR ISSO
-    /*  
-    if (this.authLoginService.currentUserValue) { 
-      
-      console.log("[INFO][LOGIN-FORM] - [CONSTRUTOR]: 11111111111");
-
-      this.router.navigate(['/']);
-    }
-    */
-
-    /*
-    this.route.queryParams.subscribe(params => {
-      this.tokenCliente = params['tokenCliente'];
-      this.urlOrigem = params['urlOrigem'];
-      this.idCliente = params['idCliente'];
-
-      console.log("params === " + params);
-    });
-    */
-
-    console.log("CUINTOOO ====> " + this.route.snapshot.queryParamMap.get('tokenCliente'));
-    console.log("URLLLLLL ====> " + this.route.snapshot.queryParams['tokenCliente']);
-
-    
-
-    console.log("tokenCliente === " + this.tokenCliente);
-    console.log("urlOrigem    === " + this.urlOrigem);
-    console.log("idCliente    === " + this.idCliente);
-
-
   }
 
 
@@ -95,11 +63,18 @@ export class LoginFormComponent implements OnInit  {
   protected buildResourceForm() {
     this.resourceForm = this.formBuilder.group({
       cpf: [null, [Validators.required]],
-      //senha: [null, [Validators.required]],
-      dataNascimento: [null, [Validators.required]],
+      senha: [null, [Validators.required]],
+
+      idCliente: this.route.snapshot.params.idCliente,
+      urlOrigem: this.route.snapshot.params.urlOrigem,
+      tokenCliente: this.route.snapshot.params.tokenCliente,
+      //dataNascimento: [null, [Validators.required]],
     });
   }
 
+  /*** 
+  * Validar campos inválidos
+  */
   isFieldInvalid(field: string) {
     return (
       (!this.resourceForm.get(field).valid && this.resourceForm.get(field).touched) ||
@@ -107,6 +82,17 @@ export class LoginFormComponent implements OnInit  {
     );
   }
 
+  
+  /*** 
+  * Mostrar e esconder senha
+  */
+  togglePasswordFieldType(){
+    this.isTextFieldType = !this.isTextFieldType;
+  }
+
+  /*** 
+  * Subimete Formulário
+  */
   submitForm() {
 
     // stop here if form is invalid
@@ -121,14 +107,13 @@ export class LoginFormComponent implements OnInit  {
     // Valida Login
     if (this.resourceForm.valid) {
 
-      console.log("AAAAAAAAAAAAAA ");
+      localStorage.setItem('idCliente', this.route.snapshot.params.idCliente);
+      localStorage.setItem('urlOrigem', this.route.snapshot.params.urlOrigem);
+      localStorage.setItem('tokenCliente', this.route.snapshot.params.tokenCliente);
 
-      
-
+      //console.log("RAaaaa ===> " + this.resourceForm.value());
 
       this.authLoginService.authenticate(this.resourceForm.value);
-
-      console.log("BBBBBBBBBBBBBB ");
     }
 
     this.formSubmitAttempt = true;

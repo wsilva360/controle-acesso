@@ -22,17 +22,18 @@
                 </div>
             </div>
             
-            <!--div class="form-group">
+            <div class="form-group">
                 <div class="col-xs-12">
-                    <input class="form-control" type="text" id="senha" formControlName="senha" required placeholder="Senha" >
+                    <input class="form-control" type="password" [type]="isTextFieldType ? 'text' : 'password'" id="senha" formControlName="senha" required placeholder="Senha" >
                     <i class="md md-vpn-key form-control-feedback l-h-34"></i>
+                    <span (click)="togglePasswordFieldType()">a</span>
                 </div>
                 <div class="col-xs-12" style="border: px solid red;">
                     <app-form-field-error [form-control]="resourceForm.get('senha')"></app-form-field-error>
                 </div>
-            </div-->
+            </div>
 
-            <div class="form-group">
+            <!--div class="form-group">
                 <div class="col-xs-12">
                     <input class="form-control" type="text" id="dataNascimento" formControlName="dataNascimento" [textMask]="{mask: mascaraNascimento}" required placeholder="Data de Nascimento" >
                     <i class="md md-vpn-key form-control-feedback l-h-34"></i>
@@ -40,7 +41,7 @@
                 <div class="col-xs-12" style="border: px solid red;">
                     <app-form-field-error [form-control]="resourceForm.get('dataNascimento')"></app-form-field-error>
                 </div>
-            </div>
+            </div-->
 
             <div class="form-group">
                 <div class="col-xs-12">

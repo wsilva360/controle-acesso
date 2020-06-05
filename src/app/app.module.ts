@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from "./core/core.module";
 
 import { AuthUser } from './shared/authentication/auth-user.model';
+import { BasicAuthHtppInterceptorService } from './shared/authentication/auth-http-interceptor.service';
 import { AuthLoginService } from './shared/authentication/auth-login.service';
 import { AuthGuardService } from './shared/authentication/auth-guard.service';
-
-import { IMaskModule } from 'angular-imask';
-import { TextMaskModule } from 'angular2-text-mask';
-
-import { InputMaskModule } from 'primeng/inputmask';
 
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +21,7 @@ import { ConfirmationService } from 'primeng/api';
   ],
   exports: [
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
   ],
   imports: [
     CoreModule,
@@ -31,11 +29,16 @@ import { ConfirmationService } from 'primeng/api';
     
     DialogModule,
     ConfirmDialogModule,
-    InputMaskModule,
-    IMaskModule, 
-    TextMaskModule
   ],
-  providers: [AuthLoginService, AuthGuardService, ConfirmationService],
+  providers: [
+    AuthLoginService, 
+    AuthGuardService, 
+    ConfirmationService,
+    {  
+      provide: HTTP_INTERCEPTORS, useClass: BasicAuthHtppInterceptorService, multi: true 
+    }, 
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

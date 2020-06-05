@@ -8,7 +8,7 @@ import { AuthLoginService } from './auth-login.service';
 export class BasicAuthHtppInterceptorService implements HttpInterceptor {
 
     // CONSTRUTOR
-    constructor() { }
+    constructor(private authLoginService: AuthLoginService) { console.log("INTERCEPT aasaasdadsadsadsaaadsadsads"); }
 
 
     // MÉTODOS PÚBLICOS
@@ -16,6 +16,8 @@ export class BasicAuthHtppInterceptorService implements HttpInterceptor {
         
         console.log("[INFO][AUTH-HTTP-INTERCEPTOR] - [SESSION USERNAME] : " + localStorage.getItem('currentUser'));
         console.log("[INFO][AUTH-HTTP-INTERCEPTOR] - [SESSION TOKEN] : " + sessionStorage.getItem('token'));
+        
+        //console.log("UUUUUUUSER ===> " + this.authLoginService.currentUserValue.cpf);
 
         if (localStorage.getItem('currentUser') && sessionStorage.getItem('token')) {
             req = req.clone({
@@ -25,7 +27,7 @@ export class BasicAuthHtppInterceptorService implements HttpInterceptor {
             });
         }
 
-        console.log("[INFO][AUTH-HTTP-INTERCEPTOR] - [RESULTADO] : " + req);
+        console.log("[INFO][AUTH-HTTP-INTERCEPTOR] - [RESULTADO] : " + req.headers.get('Authorization'));
         
         return next.handle(req);
     }

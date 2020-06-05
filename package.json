@@ -22,6 +22,7 @@
     "@angular/router": "~9.1.9",
     "angular-imask": "^6.0.5",
     "angular2-text-mask": "^9.0.0",
+    "cors": "^2.8.5",
     "primeicons": "^4.0.0-rc.2",
     "primeng": "^9.1.0",
     "rxjs": "~6.5.5",

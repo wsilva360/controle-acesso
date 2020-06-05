@@ -18,12 +18,17 @@ export class AuthUser extends BaseResourceModel {
   constructor(
     //public id?:number,
     //public login?: string, 
-    public senha?: string,
+    
     public idApi?: number,
 
     public cpf?: string,
+    public senha?: string,
     public dataNascimento?: string,
     
+    public idCliente?: string,
+    public urlOrigem?: string,
+    public tokenCliente?: string,
+
     public username?: string,
     public password?: string,
     public firstName?: string,

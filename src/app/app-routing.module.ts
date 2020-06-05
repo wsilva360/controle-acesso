@@ -43,13 +43,7 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./pages/account/login/login.module').then(m => m.LoginModule) }
     ],
   },
-  {
-    path: 'login',
-    component: LoginLayoutComponent,
-    children: [
-      { path: ':tokenCliente/:urlOrigem/:idCliente', loadChildren: () => import('./pages/account/login/login.module').then(m => m.LoginModule) }
-    ],
-  },
+
  
 
   

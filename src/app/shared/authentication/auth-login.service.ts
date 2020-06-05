@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -40,6 +40,7 @@ export class AuthLoginService {
     
     // CONSTRUTOR
     constructor(
+        protected route: ActivatedRoute,
         private router: Router,
         private http: HttpClient
     ) { 
@@ -52,15 +53,14 @@ export class AuthLoginService {
     authenticate(authUser: AuthUser) {
 
         console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE]: ", authUser);
+
+       
         
-        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "login", authUser).subscribe(
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/a", authUser).subscribe(
             
             userData => {
             
                 console.log("ENTROU");
-
-
-                
 
                 //if (userData && userData.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -72,7 +72,7 @@ export class AuthLoginService {
                     //localStorage.setItem('user.nome', 'RAFAEL CUINTO');
 
                     // TOKEN
-                    let tokenStr= 'Bearer ' + userData.token;
+                    let tokenStr = 'Bearer ' + userData.token;
                     sessionStorage.setItem('token', tokenStr);
 
                     localStorage.setItem('user.idBeneficiario', userData.idBeneficiario);
@@ -82,12 +82,10 @@ export class AuthLoginService {
                     localStorage.setItem('user.dataNascimento', userData.dataNascimento);
                     //localStorage.setItem('user.ativo', userData.ativo);
                     
-
+                    console.log("Currente Usuário ===> " + localStorage.getItem('currentUser'));
                     //this.loggedIn.next(true);
 
-                    this.router.navigate(['/dashboard']);
-
-
+                    //this.router.navigate(['https://www.google.com']);
                 //}
 
                 console.log("TOKEN ************* === " + tokenStr);
