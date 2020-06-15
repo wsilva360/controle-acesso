@@ -1,6 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 import { Login } from '../shared/login.model';
 import { LoginService } from '../shared/login.service';
@@ -19,6 +20,7 @@ export class LoginFormComponent implements OnInit  {
   tokenCliente: string;
   urlOrigem: string;
   idCliente: string;
+  error = '';
 
 
   // ATRIBUTOS
@@ -82,6 +84,8 @@ export class LoginFormComponent implements OnInit  {
     );
   }
 
+  // convenience getter for easy access to form fields
+  get f() { return this.resourceForm.controls; }
   
   /*** 
   * Mostrar e esconder senha
@@ -94,6 +98,7 @@ export class LoginFormComponent implements OnInit  {
   * Subimete Formulário
   */
   submitForm() {
+    console.log("SUBMIT ");
 
     // stop here if form is invalid
     if (this.resourceForm.invalid) {
@@ -101,8 +106,6 @@ export class LoginFormComponent implements OnInit  {
     }
 
     this.loading = true;
-
-    console.log("SUBMIT ");
 
     // Valida Login
     if (this.resourceForm.valid) {
@@ -114,9 +117,12 @@ export class LoginFormComponent implements OnInit  {
       //console.log("RAaaaa ===> " + this.resourceForm.value());
 
       this.authLoginService.authenticate(this.resourceForm.value);
+      //this.authLoginService.login(this.resourceForm.value);
     }
 
     this.formSubmitAttempt = true;
   }
+
+  
 
 }

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
+import { Observable, config } from 'rxjs';
+
 import { AuthLoginService } from './auth-login.service';
 
 @Injectable({
@@ -8,27 +10,21 @@ import { AuthLoginService } from './auth-login.service';
 export class BasicAuthHtppInterceptorService implements HttpInterceptor {
 
     // CONSTRUTOR
-    constructor(private authLoginService: AuthLoginService) { console.log("INTERCEPT aasaasdadsadsadsaaadsadsads"); }
+    constructor(private authLoginService: AuthLoginService) { }
 
 
     // MÉTODOS PÚBLICOS
-    intercept(req: HttpRequest<any>, next: HttpHandler) {
-        
-        console.log("[INFO][AUTH-HTTP-INTERCEPTOR] - [SESSION USERNAME] : " + localStorage.getItem('currentUser'));
-        console.log("[INFO][AUTH-HTTP-INTERCEPTOR] - [SESSION TOKEN] : " + sessionStorage.getItem('token'));
-        
-        //console.log("UUUUUUUSER ===> " + this.authLoginService.currentUserValue.cpf);
+    intercept(request: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
+        console.log("[ERROR][ErrorInterceptor] - [AUTH-HTTP-INTERCEPTOR] - [******]: ");
 
         if (localStorage.getItem('currentUser') && sessionStorage.getItem('token')) {
-            req = req.clone({
+            request = request.clone({
                 setHeaders: {
                     Authorization: sessionStorage.getItem('token')
                 }                
             });
         }
-
-        console.log("[INFO][AUTH-HTTP-INTERCEPTOR] - [RESULTADO] : " + req.headers.get('Authorization'));
         
-        return next.handle(req);
+        return next.handle(request);
     }
 }

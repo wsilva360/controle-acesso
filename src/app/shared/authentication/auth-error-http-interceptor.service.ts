@@ -9,15 +9,12 @@ import { AuthLoginService } from '../authentication/auth-login.service';
 export class ErrorInterceptor implements HttpInterceptor {
     
     // CONSTRUTOR
-    constructor(
-        private authLoginService: AuthLoginService
-    ) { }
+    constructor(private authLoginService: AuthLoginService) { }
 
 
     // MÉTODOS PÚBLICOS
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        
-        console.log("[ERROR][ErrorInterceptor] - [AUTH-ERROR-HTTP-INTERCEPTOR] - [******]");
+        console.log("[ERROR][ErrorInterceptor] - [AUTH-ERROR-HTTP-INTERCEPTOR] - [******]: ");
 
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
@@ -27,9 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
 
             const error = err.error.message || err.statusText;
-
             console.log("[ERROR][AUTH-ERROR-HTTP-INTERCEPTOR] - [******][MENSAGEM]: ", error);
-
             return throwError(error);
         }))
     }
