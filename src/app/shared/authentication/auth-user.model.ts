@@ -5,19 +5,20 @@ export class AuthUser extends BaseResourceModel {
     public idApi?: number,
 
     public cpf?: string,
+    public email?: string,
     public login?: string,
     public senha?: string,
     public dataNascimento?: string,
     
     public idCliente?: string,
     public urlOrigem?: string,
-    public tokenCliente?: string,
-
-    public username?: string,
-    public password?: string,
-    public firstName?: string,
-    public lastName?: string,
+    public accessKey?: string,
     public token?: string,
+
+
+    public novaSenha?: string,
+    public repetirSenha?: string,
+
     public ativo?: number,
 
     public status?: number,

@@ -48,181 +48,107 @@ export class AuthLoginService {
 
 
     // MÉTODOS PÚBLICOS
-    login(credentials): Observable<any> {
-        return this.http.post(AUTH_API + 'signin', {
-          username: credentials.username,
-          password: credentials.password
-        }, httpOptions);
-    }
-    
-    register(user): Observable<any> {
-        return this.http.post(AUTH_API + 'signup', {
-          username: user.username,
-          email: user.email,
-          password: user.password
-        }, httpOptions);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    authenticate1(authUser: AuthUser) {
-        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE]: ", authUser);
+    authenticate(authUser: AuthUser): Observable<AuthUser> {
+        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE rrrrraaaaa]: ", authUser);
         
         // Criptografa Senha
         //authUser.senha = sha256(authUser.senha); // Sha256
         authUser.senha = btoa(authUser.senha);   // Base64
-        
 
-        // Authencicação no PoolService - Guardian
-        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/ex", authUser).subscribe(
-            data => {
-                console.log("ENTROU");
-                console.log(data);
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/ex", authUser, { observe: 'response' })
+            .pipe(
+                map(data => {
+                    console.log("AJUSTEEE ===> " + data.body.urlOrigem);
 
-                // TOKEN
-                let token = "aVEIOOOO "; //data.headers.get("Authorization");
-                sessionStorage.setItem('token', token);
-                console.log("TOKEN ===> " + token);
+                    // TOKEN
+                    let tokenStr = data.headers.get('Authorization');
+                    sessionStorage.setItem('token', tokenStr);
 
+                    // login successful if there's a jwt token in the response
+                    if (data && tokenStr) {
+                        console.log("SIMMMMMMMMMMMMM TOKEN: " + tokenStr);
 
-                //if (data && token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(authUser));
-                    this.currentUserSubject.next(authUser);
-                    
-                    console.log("Currente Usuário ===> " + localStorage.getItem('currentUser'));
+                        // store user details and jwt token in local storage to keep user logged in between page refreshes
+                        localStorage.setItem('currentUser', JSON.stringify(data));
+                        this.currentUserSubject.next(data);
+                    }
+                    else {
+                        console.log("NÃOOOOOOOOOOOOO TOKEN: " + tokenStr);
+                    }
 
-                    //this.router.navigate(['https://www.google.com']);
-                    //window.location.href = "" + data.body.urlOrigem;
-
-                    console.log("URL ====> " + data.urlOrigem);
-
-                    //window.open("http://" + data.body.urlOrigem);
-                //}
-
-                return data;
-            },
-            error => {
-                console.log('OOPS...', error);
+                    return data;
+                },
                 
-                /*
-                if (error.status == 500) {
-                    this.alertService.showError(error.statusText);
-                } else if (error.status == 588) {
-                    this.alertService.showAlert(error.statusText);
-                }
-                */
-
-                //this.errorMessage = err.error.message;
-                //this.isSingUpFailed = true;
-            }
-            //catchError(this.handleError('addHero', hero))
-            
+            )
         );
     }
 
-    authenticate(authUser: AuthUser): Observable<AuthUser> {
-        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE]: ", authUser);
-        
-        // Criptografa Senha
-        //authUser.senha = sha256(authUser.senha); // Sha256
-        authUser.senha = btoa(authUser.senha);   // Base64
-        
+    recoverPassword(authUser: AuthUser) {
+        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE rrrrraaaaa]: ", authUser);
 
-        // Authencicação no PoolService - Guardian
-        return this.http.post<AuthUser>(API_CONFIG.baseUrl_Guardian + "auth/ex", authUser, { observe: 'response' })
+        // Reenvia Senha
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/recoverpass", authUser, { observe: 'response' })
             .pipe(
-                map((data) => {
-                    console.log("CUCUCUCUUCU ===> " + data);
-                    
-                    return data;
-                }), 
-                catchError( error => {
-                    return throwError( 'Something went wrong!' );
-                })
-                /*
                 map(data => {
-                    console.log(data);
+                    console.log("AJUSTEEE ===> " + data);
 
-                    // TOKEN
-                    let token = "aVEIOOOO "; //data.headers.get("Authorization");
-                    sessionStorage.setItem('token', token);
-                    console.log("TOKEN ===> " + token);
-
-
-                    //if (data && token) {
-                        // store user details and jwt token in local storage to keep user logged in between page refreshes
-                        localStorage.setItem('currentUser', JSON.stringify(authUser));
-                        this.currentUserSubject.next(authUser);
-                        
-                        console.log("Currente Usuário ===> " + localStorage.getItem('currentUser'));
-
-                        //this.router.navigate(['https://www.google.com']);
-                        //window.location.href = "" + data.body.urlOrigem;
-
-                        //console.log("URL ====> " + data.urlOrigem);
-
-                        //window.open("http://" + data.body.urlOrigem);
-                    //}
-
+                    // login successful if there's a jwt token in the response
+                    if (data ) {
+                        console.log("SIMMMMMMMMMMMMM: ");
+                    }
+                    else {
+                        console.log("NÃOOOOOOOOOOOOO: ");
+                    }
 
                     return data;
-                }),
-                catchError((err: any) => {
-                    // simple logging, but you can do a lot more, see below
-                    console.error('An error occurred:', err.error);
-
-                    
-                        //expect(err.status).toEqual(404, 'status');
-                        //expect(err.error).toEqual("deliberate 404 error", 'message');
-
-                    return Observable.throw(err.statusText);
-                })
-                */
-            );
-
+                },
+                
+            )
+        );
     }
 
-    create(resource: AuthUser): Observable<AuthUser> {
-        console.log("[INFO][MÉTODO][BASE-RESOURCE.SERVICE] - [create][resource]: " + resource);
-    
-        
-        const url = API_CONFIG.baseUrl_Guardian + "auth/ex/";
-    
-        return this.http.post(url, resource).pipe(
-          map(this.jsonDataToResource.bind(this)),
-          catchError(this.handleError)
-        )
-      }
+
+    newPassword(authUser: AuthUser) {
+        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE rrrrraaaaa]: ", authUser);
+
+
+        authUser.senha = authUser.novaSenha;
+        authUser.novaSenha = null;
+        authUser.repetirSenha = null;
+
+        // Reenvia Senha
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/newpass", authUser, { observe: 'response' })
+            .pipe(
+                map(data => {
+                    console.log("AJUSTEEE ===> " + data);
+
+                    // login successful if there's a jwt token in the response
+                    if (data ) {
+                        console.log("SIMMMMMMMMMMMMM: ");
+                    }
+                    else {
+                        console.log("NÃOOOOOOOOOOOOO: ");
+                    }
+
+                    return data;
+                },
+                
+            )
+        );
+    }
+
+
+
+
 
    
 
     protected handleError(error: any): Observable<any>{
-        console.log("[ERROR][MÉTODO][BASE-RESOURCE.SERVICE] - [ERRO NA REQUISIÇÃO]: ", error);
+        console.log("[ERROR][MÉTODO][AUTH-LOGIN.SERVICE] - [ERRO NA REQUISIÇÃO]: ", error);
         return throwError(error);
-      }
+    }
 
-    get() {
+    getInfo() {
         console.log('URL:' + window.location.href);
         console.log('Path:' + window.location.pathname);
         console.log('Host:' + window.location.host);
@@ -249,12 +175,16 @@ export class AuthLoginService {
         return !(user === null)
     }
 
-    logOut() {
+    logout() {
         sessionStorage.clear();
         localStorage.clear();
 
         sessionStorage.removeItem('token'),
         localStorage.removeItem('currentUser');
+
+        // remove user from local storage and set current user to null
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
     }
 
 

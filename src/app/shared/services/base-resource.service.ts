@@ -77,7 +77,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token });
     const url = `${this.apiPath}/` + localStorage.getItem("user.idBeneficiario");
 
-    return this.http.post(url, resource, {headers}).pipe(
+    return this.http.post(url, resource, { headers }).pipe(
       map(this.jsonDataToResource.bind(this)),
       catchError(this.handleError)
     )
@@ -89,7 +89,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token });
     const url = `${this.apiPath}/` + localStorage.getItem("user.idBeneficiario") + `/${resource.id}`;
 
-    return this.http.put(url, resource, {headers}).pipe(
+    return this.http.put(url, resource, { headers }).pipe(
       map(() => resource),
       catchError(this.handleError)
     )
@@ -101,7 +101,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token });
     const url = `${this.apiPath}/` + localStorage.getItem("user.idBeneficiario") + `/${id}`;
 
-    return this.http.delete(url, {headers}).pipe(
+    return this.http.delete(url, { headers }).pipe(
       map(() => null),
       catchError(this.handleError)
     )
@@ -111,6 +111,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   teste(id: any): Observable<any> {
     console.log("[INFO][MÉTODO][BASE-RESOURCE.SERVICE] - [teste][id]: " + id);
 
+    const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token })
     const url = `${this.apiPath}/print`;
 
     return this.http.post(url, id).pipe(

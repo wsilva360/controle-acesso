@@ -1,0 +1,6 @@
+<div class="alert alert-sucess mt-4" *ngIf="serverMessages">
+    <strong>Sucesso:</strong>
+    <ul>
+      <li *ngFor="let error of serverMessages">{{error}}</li>
+    </ul>
+</div>

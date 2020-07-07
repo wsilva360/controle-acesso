@@ -6,7 +6,7 @@ import { LoginFormComponent } from "./login-form/login-form.component";
 
 const routes: Routes = [
   { path: '', component: LoginFormComponent },
-  { path: ':tokenCliente/:urlOrigem/:idCliente', component: LoginFormComponent }
+  //{ path: ':accessKey/:urlOrigem/:idCliente', component: LoginFormComponent }
 ];
 
 @NgModule({

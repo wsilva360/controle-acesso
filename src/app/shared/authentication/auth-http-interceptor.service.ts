@@ -21,7 +21,7 @@ export class BasicAuthHtppInterceptorService implements HttpInterceptor {
             request = request.clone({
                 setHeaders: {
                     Authorization: sessionStorage.getItem('token')
-                }                
+                } 
             });
         }
         

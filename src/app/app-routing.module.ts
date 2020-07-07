@@ -34,8 +34,8 @@ const routes: Routes = [
   */
   
   
-  { path: '#', redirectTo: '', pathMatch: 'full' },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  //{ path: '#', redirectTo: '', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'login',
     component: LoginLayoutComponent,
@@ -43,7 +43,20 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./pages/account/login/login.module').then(m => m.LoginModule) }
     ],
   },
-
+  {
+    path: 'recover-password',
+    component: LoginLayoutComponent,
+    children: [
+      { path: '', loadChildren: () => import('./pages/account/recover-password/recover-password.module').then(m => m.RecoverPasswordModule) }
+    ],
+  },
+  {
+    path: 'new-password',
+    component: LoginLayoutComponent,
+    children: [
+      { path: '', loadChildren: () => import('./pages/account/new-password/new-password.module').then(m => m.NewPasswordModule) }
+    ],
+  },
  
 
   
@@ -60,7 +73,7 @@ const routes: Routes = [
   //{ path: 'login', redirectTo: '/' },
   //{ path: '**', redirectTo: '/' }
   //{path: '**', component: NotFoundComponent},
-  { path: '', redirectTo: '/', pathMatch: 'full' }
+  //{ path: '', redirectTo: '/', pathMatch: 'full' }
   
 ];
 
