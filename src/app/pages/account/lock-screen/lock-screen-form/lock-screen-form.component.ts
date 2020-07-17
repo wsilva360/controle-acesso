@@ -3,17 +3,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { Login } from '../shared/login.model';
-import { LoginService } from '../shared/login.service';
+import { LockScreen } from '../shared/lock-screen.model';
+import { LockScreenService } from '../shared/lock-screen.service';
 import { AuthLoginService } from '../../../../shared/authentication/auth-login.service';
 import { ConstantPool } from '@angular/compiler';
 
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  selector: 'app-lock-screen-form',
+  templateUrl: './lock-screen-form.component.html',
+  styleUrls: ['./lock-screen-form.component.css']
 })
-export class LoginFormComponent implements OnInit  {
+export class LockScreenFormComponent implements OnInit  {
 
   // VARIÁVEIS
   currentAction: string;
@@ -22,31 +22,21 @@ export class LoginFormComponent implements OnInit  {
   serverErrorMessages: string[] = null;
   submittingForm: boolean = false;
   
-  accessKey: string = "";
-  urlOrigem: string = "";
-  idCliente: string = "";
-
+  accessKey: string;
+  urlOrigem: string;
+  idCliente: string;
 
   isTextFieldType: boolean = false;  
   error = '';
   showDialogError: boolean = false;
 
   // ATRIBUTOS
-  
   public formSubmitAttempt: boolean;
   
 
 
   // MASCARA
   public mascaraCpf = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public mascaraCnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public mascaraTelefone = ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-  public mascaraTelefoneFixo = ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-  public mascaraCep = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
-  public mascaraNascimento = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
-  public qtdHoras = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
-  public mascaraNit = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, /\d/, /\d/, '.', /\d/, /\d/, '-', /\d/];
-
   public mascaraCarteiraIamspe = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
 
   
@@ -58,8 +48,8 @@ export class LoginFormComponent implements OnInit  {
       protected authLoginService: AuthLoginService,
       //private alertService: AlertService
   ) {
-    console.log("[INFO][LOGIN-FORM] - [CONSTRUTOR]");
-    console.log("[INFO][LOGIN-FORM] - [CURRENTE USER VALUE]: " + this.authLoginService.currentUserValue);
+    console.log("[INFO][LOCK-SCREEN-FORM] - [CONSTRUTOR]");
+    console.log("[INFO][LOCK-SCREEN-FORM] - [CURRENTE USER VALUE]: " + this.authLoginService.currentUserValue);
   }
 
 
@@ -72,12 +62,7 @@ export class LoginFormComponent implements OnInit  {
 
   protected buildResourceForm() {
     this.resourceForm = this.formBuilder.group({
-      cpf: [null, [Validators.required]],
-      senha: [null, [Validators.required, Validators.minLength(2)]],
-      
-      idCliente: this.route.snapshot.params.idCliente,
-      urlOrigem: this.route.snapshot.params.urlOrigem,
-      accessKey: this.route.snapshot.params.accessKey,
+      senha: [null, [Validators.required, Validators.minLength(4)]],
     });
   }
 

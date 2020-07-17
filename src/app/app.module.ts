@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from "./core/core.module";
@@ -32,9 +34,13 @@ import { ConfirmationService } from 'primeng/api';
     ConfirmDialogModule,
   ],
   providers: [
+    
     // Interceptor
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthHtppInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    // 
+    //{ provide: LocationStrategy, useClass: HashLocationStrategy },
     
     // Authnetication
     AuthLoginService, 

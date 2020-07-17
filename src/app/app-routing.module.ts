@@ -8,39 +8,20 @@ import { BlankLayoutComponent } from './layouts/blank-layout/blank-layout.compon
 import { AuthGuardService } from './shared/authentication/auth-guard.service';
 
 const routes: Routes = [
-  /*
-  {
-    path: '',
-    component: HomeLayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        component: HomeComponent
-      }
-    ]
-  },
-  {
-    path: '',
-    component: LoginLayoutComponent,
-    children: [
-      {
-        path: 'login',
-        component: LoginComponent
-      }
-    ]
-  },
-  { path: '**', redirectTo: '' }
-  */
-  
-  
-  //{ path: '#', redirectTo: '', pathMatch: 'full' },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '#', redirectTo: '', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {
     path: 'login',
     component: LoginLayoutComponent,
     children: [
       { path: '', loadChildren: () => import('./pages/account/login/login.module').then(m => m.LoginModule) }
+    ],
+  },
+  {
+    path: 'lock-screen',
+    component: LoginLayoutComponent,
+    children: [
+      { path: '', loadChildren: () => import('./pages/account/lock-screen/lock-screen.module').then(m => m.LockScreenModule) }
     ],
   },
   {
@@ -57,7 +38,14 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./pages/account/new-password/new-password.module').then(m => m.NewPasswordModule) }
     ],
   },
- 
+  {
+    path: 'dashboard',
+    component: MasterLayoutComponent,
+    canActivate: [AuthGuardService],
+    children: [
+      { path: '', loadChildren: () => import('./pages/dashboard/dashboards.module').then(m => m.DashboardsModule) }
+    ],
+  },
 
   
   

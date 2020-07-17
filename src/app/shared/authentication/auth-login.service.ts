@@ -46,20 +46,35 @@ export class AuthLoginService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
+    validaTipoAcesso() {
+
+        if(localStorage.getItem('idCliente').trim().length === 0 || localStorage.getItem('urlOrigem').trim().length === 0 || localStorage.getItem('accessKey').trim().length === 0 ) {
+            return "aaaaa";
+        }
+        else {
+            return "";
+        }
+
+    }
 
     // MÉTODOS PÚBLICOS
     authenticate(authUser: AuthUser): Observable<AuthUser> {
-        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE rrrrraaaaa]: ", authUser);
+        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE LOGIN]: ", authUser);
         
         // Criptografa Senha
         //authUser.senha = sha256(authUser.senha); // Sha256
-        authUser.senha = btoa(authUser.senha);   // Base64
+        //authUser.senha = btoa(authUser.senha);   // Base64
 
-        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/ex", authUser, { observe: 'response' })
+        // Valida Tipo Acesso
+        var tipoLogin = "ex";
+
+        if(localStorage.getItem('accessKey').trim() === "undefined" || localStorage.getItem('accessKey').trim() === null || localStorage.getItem('accessKey').trim() === "") {
+            tipoLogin = "in";
+        }
+        
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/" + tipoLogin, authUser, { observe: 'response' })
             .pipe(
                 map(data => {
-                    console.log("AJUSTEEE ===> " + data.body.urlOrigem);
-
                     // TOKEN
                     let tokenStr = data.headers.get('Authorization');
                     sessionStorage.setItem('token', tokenStr);
@@ -84,7 +99,7 @@ export class AuthLoginService {
     }
 
     recoverPassword(authUser: AuthUser) {
-        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE rrrrraaaaa]: ", authUser);
+        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE RECOVER PASSWORD]: ", authUser);
 
         // Reenvia Senha
         return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/recoverpass", authUser, { observe: 'response' })
@@ -109,7 +124,7 @@ export class AuthLoginService {
 
 
     newPassword(authUser: AuthUser) {
-        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE rrrrraaaaa]: ", authUser);
+        console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE NEW PASSWORD]: ", authUser);
 
 
         authUser.senha = authUser.novaSenha;
