@@ -46,17 +46,6 @@ export class AuthLoginService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    validaTipoAcesso() {
-
-        if(localStorage.getItem('idCliente').trim().length === 0 || localStorage.getItem('urlOrigem').trim().length === 0 || localStorage.getItem('accessKey').trim().length === 0 ) {
-            return "aaaaa";
-        }
-        else {
-            return "";
-        }
-
-    }
-
     // MÉTODOS PÚBLICOS
     authenticate(authUser: AuthUser): Observable<AuthUser> {
         console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE LOGIN]: ", authUser);
@@ -72,7 +61,7 @@ export class AuthLoginService {
             tipoLogin = "in";
         }
         
-        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/" + tipoLogin, authUser, { observe: 'response' })
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/login" + tipoLogin, authUser, { observe: 'response' })
             .pipe(
                 map(data => {
                     // TOKEN
@@ -126,7 +115,7 @@ export class AuthLoginService {
     newPassword(authUser: AuthUser) {
         console.log("[INFO][AUTH-LOGIN] - [AUTHENTICATE NEW PASSWORD]: ", authUser);
 
-
+        // Pega Senha
         authUser.senha = authUser.novaSenha;
         authUser.novaSenha = null;
         authUser.repetirSenha = null;
