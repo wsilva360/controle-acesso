@@ -127,12 +127,13 @@ export class LoginFormComponent implements OnInit  {
       .pipe(first())
       .subscribe(
           data => {
-            console.log("DATA == " + data)
-            //this.router.navigate([this.returnUrl]);
-            
-            // Redireciona para URL ORIGEM
-            //window.open(localStorage.getItem("urlOrigem"), "_blank");
-            this.router.navigate(['/dashboard']);
+            // Redireciona Url (EX ou IN)
+            if (localStorage.getItem("tipoLogin") === "ex") {
+              window.open(localStorage.getItem("urlOrigem"), "_self");
+            }
+            else {
+              this.router.navigate(['/dashboard']);
+            }
           },
           error => {
             console.log("ERRO1 == " + error);
@@ -140,6 +141,8 @@ export class LoginFormComponent implements OnInit  {
             console.log("ERRO1 == " + error.status);
             
             this.actionsForError(error);
+
+            // Fazer um "service" centralizando mensagens de alerta
             //this.alertService.error(error);
             //this.loading = false;
           });  
@@ -170,7 +173,7 @@ export class LoginFormComponent implements OnInit  {
         break;
 
       default:
-        this.serverErrorMessages = ["Falha na comunicação com o servidor. Por favor, tente mais tarde.****"];
+        this.serverErrorMessages = ["Falha na comunicação com o servidor. Por favor, tente mais tarde."];
     }
   }
 

@@ -61,20 +61,22 @@ export class AuthLoginService {
             tipoLogin = "in";
         }
         
-        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/login" + tipoLogin, authUser, { observe: 'response' })
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/login/" + tipoLogin, authUser, { observe: 'response' })
             .pipe(
                 map(data => {
                     // TOKEN
-                    let tokenStr = data.headers.get('Authorization');
-                    sessionStorage.setItem('token', tokenStr);
-
+                    let tokenStr = data.headers.get("Authorization");
+                    sessionStorage.setItem("token", tokenStr);
+                    
                     // login successful if there's a jwt token in the response
                     if (data && tokenStr) {
                         console.log("SIMMMMMMMMMMMMM TOKEN: " + tokenStr);
 
                         // store user details and jwt token in local storage to keep user logged in between page refreshes
-                        localStorage.setItem('currentUser', JSON.stringify(data));
+                        localStorage.setItem("currentUser", JSON.stringify(data));
                         this.currentUserSubject.next(data);
+
+                        localStorage.setItem("tipoLogin", tipoLogin);
                     }
                     else {
                         console.log("NÃOOOOOOOOOOOOO TOKEN: " + tokenStr);

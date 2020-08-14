@@ -15,12 +15,12 @@ export class BasicAuthHtppInterceptorService implements HttpInterceptor {
 
     // MÉTODOS PÚBLICOS
     intercept(request: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
-        console.log("[ERROR][ErrorInterceptor] - [AUTH-HTTP-INTERCEPTOR] - [******]: ");
+        console.log("[INFO][Interceptor] - [AUTH-HTTP-INTERCEPTOR]");
 
-        if (localStorage.getItem('currentUser') && sessionStorage.getItem('token')) {
+        if (localStorage.getItem("currentUser") && sessionStorage.getItem("token")) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: sessionStorage.getItem('token')
+                    Authorization: sessionStorage.getItem("token")
                 } 
             });
         }

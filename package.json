@@ -1,5 +1,5 @@
 {
-  "name": "cas-auth-iamspe",
+  "name": "app-cas-iamspe",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
