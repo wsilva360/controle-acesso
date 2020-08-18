@@ -7,7 +7,7 @@ export const API_CONFIG = {
     baseUrl_GSI: "http://www.iamspe.sp.gov.br/apibeneficiario_gsi/",
     baseUrl_MV: "http://www.iamspe.sp.gov.br/apibeneficiario_mv/",
     baseUrl_Gateway: "http://www.iamspe.sp.gov.br/api/",
-    baseUrl_Guardian: "http://www.iamspe.sp.gov.br/guardian/",
+    baseUrl_Guardian: "http://www.iamspe.sp.gov.br/api/guardian/",
 
     // ###########################################################################################
     // HOMOGACAO

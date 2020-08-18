@@ -46,8 +46,14 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./pages/dashboard/dashboards.module').then(m => m.DashboardsModule) }
     ],
   },
-
-  
+  {
+    path: 'agendamento',
+    component: MasterLayoutComponent,
+    canActivate: [AuthGuardService],
+    children: [
+      { path: '', loadChildren: () => import('./pages/agendamento/agendamentos.module').then(m => m.AgendamentosModule) }
+    ],
+  },
   
   {
     path: 'error',

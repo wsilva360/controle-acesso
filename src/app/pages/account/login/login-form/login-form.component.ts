@@ -72,7 +72,7 @@ export class LoginFormComponent implements OnInit  {
 
   protected buildResourceForm() {
     this.resourceForm = this.formBuilder.group({
-      cpf: [null, [Validators.required]],
+      login: [null, [Validators.required]],
       senha: [null, [Validators.required, Validators.minLength(2)]],
       
       idCliente: this.route.snapshot.params.idCliente,
@@ -131,8 +131,8 @@ export class LoginFormComponent implements OnInit  {
             //this.router.navigate([this.returnUrl]);
             
             // Redireciona para URL ORIGEM
-            //window.open(localStorage.getItem("urlOrigem"), "_blank");
-            this.router.navigate(['/dashboard']);
+            window.open(localStorage.getItem("urlOrigem"), "_blank");
+            //this.router.navigate(['/dashboard']);
           },
           error => {
             console.log("ERRO1 == " + error);

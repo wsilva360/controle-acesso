@@ -12,7 +12,7 @@ import { API_CONFIG } from "../../config/api.config";
 export abstract class BaseResourceService<T extends BaseResourceModel> {
 
   // VARIÁVEIS
-  private token: string = sessionStorage.getItem('token');
+  private token: string = sessionStorage.getItem("token");
   private userCpf: string = localStorage.getItem("user.idBeneficiario");
 
   

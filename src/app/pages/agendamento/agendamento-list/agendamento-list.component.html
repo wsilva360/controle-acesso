@@ -1,0 +1,128 @@
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <h4 class="page-title">Beneficiário :: Agendamento(s)</h4>
+    </div>
+</div>
+<!-- Page-Title -->
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <h4 class="m-t-0 header-title"><b>Lista de Agendamento(s)</b></h4>
+            <p class="text-muted font-13 m-b-30">
+                Agendamento.
+            </p>
+        
+            <p-table #dt [columns]="cols" [value]="resources" [paginator]="true" [rows]="10" [responsive]="true" [resizableColumns]="true" sortOrder="1">
+                <ng-template pTemplate="caption">
+                    <div style="text-align: right">        
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="40" placeholder="Pesquisar" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                        <col *ngFor="let col of columns" [style.width]="col.width">
+                    </colgroup>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                        </th>
+                        <th style="width:200px"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-agendamento let-columns="columns">
+                    <tr>
+                        <td>{{agendamento.idItemAgenda}}</td>
+                        <td class="ui-resizable-column">{{agendamento.agenda.prestador.nomePrestador}}</td>
+                        <td class="ui-resizable-column">{{agendamento.horaAgenda}}</td>
+                        <td style="text-align:center">
+                            <div class="button-group">
+                                <!--button [ngClass]="getCSSClasses(agendamento.tempoLiberacao)"  pButton icon="md md-videocam" (click)="abrirAtendimento(agendamento.idItemAgenda);" (load)="calcTempoRegressivo1(agendamento.tempoLiberacao)" title="Telemedicina Iamspe" style="width: 180px; height: 40px; text-align: center;"> 
+                                    <span id="countdown" class="timer"></span>
+                                    {{tempoLiberacao}}
+                                </button-->
+                                <button class="" pButton icon="md md-videocam" (click)="abrirAtendimento(agendamento.idItemAgenda);" title="Abrir Atendimento" style="width: 180px; height: 40px; text-align: center;"> Check-In </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    Existem {{resources?.length}} Agendado(s)
+                </ng-template>
+            </p-table>
+
+        </div>
+
+        <br><br>
+
+        <div>
+            <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+
+            <p-dialog [(visible)]="showDialogConfirmaAgendamento" modal="modal" [style]="{width: '50vw'}" [baseZIndex]="10000" >
+                <p-header>
+                    TERMO DE CONSENTIMENTO - INFORMAÇÃO E ESCLARECIMENTO TELEMEDICINA/TELESSAÚDE 
+                </p-header>
+                
+                <div>
+                    <p></p>
+                    1. Informações preliminares: 
+                    <br><br>
+                    1.1. Considerando o período de excepcionalidade ocasionado pela pandemia do Covid-19; 
+                    <br><br>
+                    1.2. Considerando a manifestação positiva do Conselho Federal de Medicina (CFM) por meio do CFM nº 1756 (19 de março de 2020); 
+                    <br><br>
+                    1.3. Considerando a manifestação positiva do Ministério da Saúde no sentido de autorizar o atendimento da população via Telemedicina/Telessaúde por meio da portaria nº 467 (20 de março de 2020); 
+                    <br><br>
+                    1.4. Fica o paciente ciente de que se trata de atendimento em caráter excepcional, enquanto perdurar a manifestação do Covid-19; 
+                    <br><br>
+                    1.5. Fica o paciente ciente e concorda que o atendimento a distância tem limitações, principalmente por não ser possível a realização de um exame físico completo e que pode ser necessária a complementação com uma consulta presencial, a critério do médico; 
+                    <br><br>
+                    1.6. Salientando que esse tipo de atendimento não se aplica a situações de urgência e emergência; 
+                    <br><br>
+                    1.7. Fica o paciente ciente que o sigilo e a integridade das informações serão resguardados pelo médico e registradas em prontuário médico. 
+                    <br><br>
+                    
+
+                    2. Riscos: 
+                    <br><br>
+                    2.1. Declaro que é de minha expressa e espontânea vontade passar informações médicas a meu respeito, através de meios de comunicação on-line (a distância/remota), estando sujeito às seguintes situações:  
+                    <br><br>
+                    - Perda de conexão durante a teleconsulta; 
+                    <br><br>
+                    - Necessidade de nova conexão para continuidade da teleconsulta; 
+                    <br><br>
+                    - Variação no estabelecimento da conexão. 
+                    <br><br>
+                    2.2. Declaro que estou ciente de que as informações por mim prestadas, via online, serão verdadeiras e poderão ser gravadas e armazenadas pelo médico acima mencionado, o qual guardará o devido sigilo, conforme exigido por lei; 
+                    <br><br>
+                    2.3. Reconheço a excepcionalidade do momento, e me comprometo a preservar e manter a confidencialidade das imagens (foto e vídeo), dos dados, dos diálogos, orientações, prescrições e todo o conteúdo referentes à forma da telemedicina a que fui submetido, sob pena de sansões legais por exposição de dados e imagem. Da mesma forma, afirmo meu compromisso em não gravar, fotografar ou editar qualquer momento ou etapa da telemedicina empregada, assim como asseguro minha ciência que tal fato não tem o consentimento do meu médico.  
+                    <br><br>
+                    3. Considerações finais: 
+                    <br><br>
+                    3.1. Por tal razão, declaro estar ciente de que o atendimento via Telemedicina foi escolhido por mim diante da necessidade do isolamento social, devido a pandemia do Covid-19, e expresso o meu consentimento para realização da consulta em questão; 
+                    <br><br>
+                    3.2. Fui informado(a) ainda que, se for o caso, deverei me dirigir a um ambulatório ou hospital para atendimento presencial. 
+                    <br><br>
+                    O Eu li e concordo com os termos de atendimento.
+                </div>
+
+                <p-footer>
+                    <button type="button" pButton icon="pi pi-check" (click)="termoAceiteSim()" label="Aceito"></button>
+                    <button type="button" pButton icon="pi pi-times" (click)="showDialogConfirmaAgendamento=false" label="Não Aceito" class="ui-button-secondary"></button>
+                </p-footer>
+            </p-dialog>
+
+            
+        </div>
+        
+    </div>
+</div>

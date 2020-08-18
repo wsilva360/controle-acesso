@@ -14,34 +14,11 @@
         <form [formGroup]="resourceForm" (submit)="submitForm()">
             <div class="form-group">
                 <div class="col-xs-12">
-                    <input class="form-control" type="text" id="cpf" formControlName="cpf" [textMask]="{mask: mascaraCpf}" required placeholder="Digite seu CPF">
+                    <input class="form-control" type="text" id="login" formControlName="login" [textMask]="{mask: cpfcnpjmask}" required placeholder="Digite seu CPF ou N.º CARTEIRINHA">
                     <i class="md md-account-circle form-control-feedback l-h-34"></i>
                 </div>
-                <div class="col-xs-12">
-                    <app-form-field-error [form-control]="resourceForm.get('cpf')"></app-form-field-error>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <div class="col-xs-12">
-                    <input class="form-control" type="password" [type]="isTextFieldType ? 'text' : 'password'" id="senha" formControlName="senha" required placeholder="Senha" >
-                    <i class="md md-vpn-key form-control-feedback l-h-34"></i>
-                    <span (click)="togglePasswordFieldType()">a</span>
-                </div>
-                <div class="col-xs-12">
-                    <app-form-field-error [form-control]="resourceForm.get('senha')"></app-form-field-error>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-xs-12">
-                    <div class="checkbox checkbox-primary">
-                        <input id="checkbox-signup" type="checkbox">
-                        <label for="checkbox-signup">
-                            Lembre de mim
-                        </label>
-                    </div>
-
+                <div class="col-xs-12" style="border: 0px solid red;">
+                    <app-form-field-error [form-control]="resourceForm.get('login')"></app-form-field-error>
                 </div>
             </div>
 
@@ -57,16 +34,10 @@
                 </div>
             </div>
 
-            <div class="form-group m-t-30">
-                <div class="col-sm-7">
-                    <a routerLink="/recover-password" class="text-muted"><i class="fa fa-lock m-r-5"></i> Esqueceu sua senha?</a>
-                </div>
-                <!--div class="col-sm-5 text-right">
-                    <a href="pages-register.html" class="text-muted">Crie a sua conta aqui</a>
-                </div-->
-            </div>
         </form>
     </div>
+    
+
     
     <div>
         <!-- Show Dialog Error -->

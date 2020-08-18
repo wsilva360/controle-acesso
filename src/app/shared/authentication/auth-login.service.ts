@@ -55,19 +55,19 @@ export class AuthLoginService {
         //authUser.senha = btoa(authUser.senha);   // Base64
 
         // Valida Tipo Acesso
-        var tipoLogin = "ex";
+        var tipoLogin = "auth/login/ex";
 
         if(localStorage.getItem('accessKey').trim() === "undefined" || localStorage.getItem('accessKey').trim() === null || localStorage.getItem('accessKey').trim() === "") {
-            tipoLogin = "in";
+            tipoLogin = "auth/login/in";
         }
         
-        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/login" + tipoLogin, authUser, { observe: 'response' })
+        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + tipoLogin, authUser, { observe: 'response' })
             .pipe(
                 map(data => {
                     // TOKEN
-                    let tokenStr = data.headers.get('Authorization');
-                    sessionStorage.setItem('token', tokenStr);
-
+                    let tokenStr = data.headers.get("Authorization");
+                    sessionStorage.setItem("token", tokenStr);
+                    
                     // login successful if there's a jwt token in the response
                     if (data && tokenStr) {
                         console.log("SIMMMMMMMMMMMMM TOKEN: " + tokenStr);
