@@ -15,8 +15,7 @@ export class AuthGuardService implements CanActivate {
 
 
     // MÉTODOS PÚBLICOS
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {       
         console.log("[INFO][AUTH-GUARD-SERVICE] - [ROUTE]: " + route);
         console.log("[INFO][AUTH-GUARD-SERVICE] - [STATE]: " + state);
 
@@ -27,8 +26,9 @@ export class AuthGuardService implements CanActivate {
             return true;
         }
 
-        this.router.navigate(['/login']);        
         console.log("isUserLoggedIn = FALSE");
+        this.router.navigate(['/login']);        
+        
         return false;
     }
 

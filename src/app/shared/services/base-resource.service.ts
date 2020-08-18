@@ -39,7 +39,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token });
     const url = `${this.apiPath}/` + localStorage.getItem("user.idBeneficiario");
 
-    return this.http.get(url).pipe(
+    return this.http.get(url, { headers }).pipe(
       map(this.jsonDataToResources.bind(this)),
       catchError(this.handleError) 
     )
@@ -51,7 +51,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token });
     const url = `${this.apiPath}/` + localStorage.getItem("user.idBeneficiario") + `/${id}`;
     
-    return this.http.get(url).pipe(
+    return this.http.get(url, { headers }).pipe(
       map(this.jsonDataToResources.bind(this)),
       catchError(this.handleError)
     )
@@ -65,7 +65,7 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
 
     console.log("WELLLLLLL ====> " + url);
 
-    return this.http.get(url).pipe(
+    return this.http.get(url, { headers }).pipe(
       map(this.jsonDataToResource.bind(this)),
       catchError(this.handleError)      
     )
@@ -111,10 +111,10 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   teste(id: any): Observable<any> {
     console.log("[INFO][MÉTODO][BASE-RESOURCE.SERVICE] - [teste][id]: " + id);
 
-    const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token })
+    const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token });
     const url = `${this.apiPath}/print`;
 
-    return this.http.post(url, id).pipe(
+    return this.http.post(url, id, { headers }).pipe(
       map(this.jsonDataToResource.bind(this)),
       catchError(this.handleError)
     )
@@ -123,10 +123,13 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
 
   // TODO: MUDAR O NOME DO MÉTODO
   print(id: any): Observable<any> {
+    console.log("[INFO][MÉTODO][BASE-RESOURCE.SERVICE] - [print][id]: " + id);
+
+    const headers = new HttpHeaders({ Authorization: 'Bearer ' + this.token });
     //const url = `${this.apiPath}/` + localStorage.getItem("user.idBeneficiario") + `/${id}`;
     const url = `${this.apiPath}/` + localStorage.getItem("user.idBeneficiario");
 
-    return this.http.get(url).pipe(
+    return this.http.get(url, { headers }).pipe(
       map(this.jsonDataToResource.bind(this)),
       catchError(this.handleError)
     )
