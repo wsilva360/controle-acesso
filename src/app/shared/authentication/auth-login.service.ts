@@ -55,17 +55,13 @@ export class AuthLoginService {
         //authUser.senha = btoa(authUser.senha);   // Base64
 
         // Valida Tipo Acesso
-        var tipoLogin = "auth/login/ex";
+        var tipoLogin = "ex";
 
         if(localStorage.getItem('accessKey').trim() === "undefined" || localStorage.getItem('accessKey').trim() === null || localStorage.getItem('accessKey').trim() === "") {
-            tipoLogin = "auth/login/in";
+            tipoLogin = "in";
         }
         
-<<<<<<< HEAD
-        return this.http.post<any>(API_CONFIG.baseUrl_Guardian + tipoLogin, authUser, { observe: 'response' })
-=======
         return this.http.post<any>(API_CONFIG.baseUrl_Guardian + "auth/login/" + tipoLogin, authUser, { observe: 'response' })
->>>>>>> a39fc67f904eb79ae4ccc96be1ffd6a75aa953de
             .pipe(
                 map(data => {
                     // TOKEN

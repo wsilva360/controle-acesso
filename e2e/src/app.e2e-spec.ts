@@ -10,11 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-<<<<<<< HEAD
     expect(page.getTitleText()).toEqual('appRestricaoAcesso app is running!');
-=======
-    expect(page.getTitleText()).toEqual('appCasIamspe app is running!');
->>>>>>> a39fc67f904eb79ae4ccc96be1ffd6a75aa953de
   });
 
   afterEach(async () => {

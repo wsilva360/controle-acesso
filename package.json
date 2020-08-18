@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "app-restricao-acesso",
-=======
-  "name": "app-cas-iamspe",
->>>>>>> a39fc67f904eb79ae4ccc96be1ffd6a75aa953de
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -36,7 +32,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.7",
+    "@angular-devkit/build-angular": "^0.1000.6",
     "@angular/cli": "~9.1.7",
     "@angular/compiler-cli": "~9.1.9",
     "@angular/language-service": "~9.1.9",

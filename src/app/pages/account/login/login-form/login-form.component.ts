@@ -174,4 +174,45 @@ export class LoginFormComponent implements OnInit  {
     }
   }
 
+
+  // Mask
+  cpfcnpjmask = function (rawValue) {
+    var numbers = rawValue.match(/\d/g);
+    var numberLength = 0;
+    
+    if (numbers) {
+      numberLength = numbers.join('').length;
+    }
+
+    var mask;
+
+    switch(numberLength) {
+      case 5:
+        mask = [/\d/, /\d/, /\d/, /\d/, /\d/];
+        break;
+
+      case 6:
+        mask = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+        break;
+
+      case 7:
+        mask = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+        break;
+
+      case 8:
+        mask = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+        break;
+
+      case 9:
+        mask = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+        break;
+
+      default:
+        mask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/]
+
+    }
+
+    return mask;
+  }
+
 }
