@@ -1,19 +1,17 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Beneficiario } from './../../../../shared/models/beneficiario.model';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-
-import { Login } from '../shared/login.model';
-import { LoginService } from '../shared/login.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthLoginService } from '../../../../shared/authentication/auth-login.service';
-import { ConstantPool } from '@angular/compiler';
+import { registerLocaleData } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css']
 })
-export class LoginFormComponent implements OnInit  {
+export class LoginFormComponent implements OnInit {
 
   // VARIÁVEIS
   currentAction: string;
@@ -21,67 +19,49 @@ export class LoginFormComponent implements OnInit  {
   pageTitle: string;
   serverErrorMessages: string[] = null;
   submittingForm: boolean = false;
-  
-  accessKey: string = "";
-  urlOrigem: string = "";
-  idCliente: string = "";
 
-
-  isTextFieldType: boolean = false;  
+  isTextFieldType: boolean = false;
   error = '';
   showDialogError: boolean = false;
 
+  item:string;
+  unid:string;
+  data:number = Date.now();
+  dataAgenda:string;
+  imagePath:any;
+
+
   // ATRIBUTOS
-  
+
+
   public formSubmitAttempt: boolean;
-  
 
-
-  // MASCARA
-  public mascaraCpf = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public mascaraCnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
-  public mascaraTelefone = ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-  public mascaraTelefoneFixo = ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-  public mascaraCep = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
-  public mascaraNascimento = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
-  public qtdHoras = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
-  public mascaraNit = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, /\d/, /\d/, '.', /\d/, /\d/, '-', /\d/];
-
-  public mascaraCarteiraIamspe = [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
-
-  
   // CONSTRUTOR
   constructor(
-      protected formBuilder: FormBuilder,
-      protected route: ActivatedRoute,
-      protected router: Router,
-      protected authLoginService: AuthLoginService,
-      //private alertService: AlertService
-  ) {
-    console.log("[INFO][LOGIN-FORM] - [CONSTRUTOR]");
-    console.log("[INFO][LOGIN-FORM] - [CURRENTE USER VALUE]: " + this.authLoginService.currentUserValue);
+    protected formBuilder: FormBuilder,
+    protected route: ActivatedRoute,
+    protected router: Router,
+    protected authLoginService: AuthLoginService,
+    private _sanitizer: DomSanitizer) {
+
   }
 
 
   // MÉTODOS PÚBLICOS
   ngOnInit() {
     localStorage.clear();
-    
+
     this.buildResourceForm();
   }
 
+
   protected buildResourceForm() {
     this.resourceForm = this.formBuilder.group({
-      login: [null, [Validators.required]],
-      senha: [null, [Validators.required, Validators.minLength(2)]],
-      
-      idCliente: this.route.snapshot.params.idCliente,
-      urlOrigem: this.route.snapshot.params.urlOrigem,
-      accessKey: this.route.snapshot.params.accessKey,
+      acesso: [null, [Validators.required]]
     });
   }
 
-  /*** 
+  /***
   * Validar campos inválidos
   */
   isFieldInvalid(field: string) {
@@ -93,100 +73,85 @@ export class LoginFormComponent implements OnInit  {
 
   // convenience getter for easy access to form fields
   get f() { return this.resourceForm.controls; }
-  
-  /*** 
+
+  /***
   * Mostrar e esconder senha
   */
-  togglePasswordFieldType(){
+  togglePasswordFieldType() {
     this.isTextFieldType = !this.isTextFieldType;
   }
 
-  /*** 
+  /***
   * Subimete Formulário
   */
-  submitForm() {
-    console.log("SUBMIT");
+  submitForm(event) {
 
-    // Valida campos preenchidos
-    if (this.resourceForm.invalid) {
-      return;
+    this.serverErrorMessages = null;
+
+    if (event.keyCode === 13) {
+      console.log('SUBMIT');
+
+      // Valida campos preenchidos
+      if (this.resourceForm.invalid) {
+        return;
+      }
+
+      this.submittingForm = true;
+
+      // Valida Login
+      if (this.resourceForm.valid) {
+
+
+        // Authencicação no PoolService - Guardian
+        return this.authLoginService.authenticate(this.resourceForm.value)
+          //.pipe(first())
+          .subscribe(
+            data => {
+              console.log("DATA == " + data.beneficiario.prontuario);
+              this.item = data.agendamento.itemAgendamento.descricao;
+              this.unid = data.agendamento.agenda.unidadeAtendimento.descricao;
+              this.dataAgenda = data.agendamento.horaAgenda;
+              this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + data.beneficiario.qrCode);
+              console.log(this.dataAgenda);
+            },
+            error => {
+              console.log(error.error.message == null);
+              this.serverErrorMessages = (error.error.message != null) ? [error.error.message] : ['Erro ao conectar com servidor'];
+            }, () => {
+              setTimeout(() => {window.print()}, 1000);
+            });
+
+      }
+
+      this.formSubmitAttempt = true;
     }
 
-    this.submittingForm = true;
-
-    // Valida Login
-    if (this.resourceForm.valid) {
-      
-      // Obtem o valores dos parâmetros da URL
-      localStorage.setItem('idCliente', this.route.snapshot.params.idCliente);
-      localStorage.setItem('urlOrigem', encodeURI(this.route.snapshot.params.urlOrigem));
-      localStorage.setItem('accessKey', this.route.snapshot.params.accessKey);
-
-      // Authencicação no PoolService - Guardian
-      return this.authLoginService.authenticate(this.resourceForm.value)
-      .pipe(first())
-      .subscribe(
-          data => {
-            console.log("DATA == " + data)
-            //this.router.navigate([this.returnUrl]);
-            
-            // Redireciona para URL ORIGEM
-            window.open(localStorage.getItem("urlOrigem"), "_blank");
-            //this.router.navigate(['/dashboard']);
-          },
-          error => {
-            console.log("ERRO1 == " + error);
-            console.log("ERRO1 == " + status);
-            console.log("ERRO1 == " + error.status);
-            
-            this.actionsForError(error);
-            //this.alertService.error(error);
-            //this.loading = false;
-          });  
-
-    }
-
-    this.formSubmitAttempt = true;
+    function delay(ms: number) {
+      return new Promise( resolve => setTimeout(resolve, ms) );
   }
-
-
-  // MÉTODOS - AÇÕES MENSAGEM
-  protected actionsForError(error){
-    //toastr.error("Ocorreu um erro ao processar a sua solicitação!");
-
-    this.submittingForm = false;
-
-    console.log(" actionsForError ******: " + error);
-
-    switch(error.status) {
-      case 401:
-      case 403:
-        console.log("AAAAAAA");
-        this.serverErrorMessages = ["401", "LOGIN OU SENHA INVÁLIDO"];
-        break;
-
-      case 422:
-        this.serverErrorMessages = JSON.parse(error._body).errors;
-        break;
-
-      default:
-        this.serverErrorMessages = ["Falha na comunicação com o servidor. Por favor, tente mais tarde.****"];
-    }
   }
 
 
   // Mask
-  cpfcnpjmask = function (rawValue) {
-    var numbers = rawValue.match(/\d/g);
-    var numberLength = 0;
-    
+  cpfcnpjmask(rawValue) {
+    let numbers = rawValue.match(/\d/g);
+    let numberLength = 0;
+
     if (numbers) {
       numberLength = numbers.join('').length;
     }
 
-    var mask;
+    let mask;
 
-    switch(numberLength) {
+    switch (numberLength) {
+      case 3:
+        mask = [/\d/, /\d/, /\d/];
+        break;
+
+      case 4:
+        mask = [/\d/, /\d/, /\d/, /\d/];
+        break;
+
       case 5:
         mask = [/\d/, /\d/, /\d/, /\d/, /\d/];
         break;
@@ -208,11 +173,10 @@ export class LoginFormComponent implements OnInit  {
         break;
 
       default:
-        mask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/]
+        mask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
 
     }
 
     return mask;
   }
-
 }

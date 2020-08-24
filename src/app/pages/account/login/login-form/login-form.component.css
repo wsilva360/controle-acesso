@@ -1,0 +1,29 @@
+@media screen {
+  .myDivToPrint { display: none; }
+  .myDivToPrint.show { display: block; }
+}
+
+@media print {
+  body * {
+    display: none !important;
+  }
+  .md-account-circle {
+    display: none;
+  }
+  .myDivToPrint {
+    display: block !important;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0px;
+  }
+}
+
+.myDivToPrint {
+  /* visibility: hidden; */
+  text-align: center;
+}

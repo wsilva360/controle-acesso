@@ -25,20 +25,6 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'recover-password',
-    component: LoginLayoutComponent,
-    children: [
-      { path: '', loadChildren: () => import('./pages/account/recover-password/recover-password.module').then(m => m.RecoverPasswordModule) }
-    ],
-  },
-  {
-    path: 'new-password',
-    component: LoginLayoutComponent,
-    children: [
-      { path: '', loadChildren: () => import('./pages/account/new-password/new-password.module').then(m => m.NewPasswordModule) }
-    ],
-  },
-  {
     path: 'dashboard',
     component: MasterLayoutComponent,
     canActivate: [AuthGuardService],
@@ -54,7 +40,7 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./pages/agendamento/agendamentos.module').then(m => m.AgendamentosModule) }
     ],
   },
-  
+
   {
     path: 'error',
     component: BlankLayoutComponent,
@@ -63,12 +49,12 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./pages/error/errors.module').then(m => m.ErrorsModule) }
     ],
   },
- 
+
   //{ path: 'login', redirectTo: '/' },
   //{ path: '**', redirectTo: '/' }
   //{path: '**', component: NotFoundComponent},
   //{ path: '', redirectTo: '/', pathMatch: 'full' }
-  
+
 ];
 
 @NgModule({
