@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: '#', redirectTo: '', pathMatch: 'full' },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {
-    path: 'login',
+    path: 'acesso',
     component: LoginLayoutComponent,
     children: [
       { path: '', loadChildren: () => import('./pages/account/login/login.module').then(m => m.LoginModule) }
@@ -53,7 +53,7 @@ const routes: Routes = [
   //{ path: 'login', redirectTo: '/' },
   //{ path: '**', redirectTo: '/' }
   //{path: '**', component: NotFoundComponent},
-  //{ path: '', redirectTo: '/', pathMatch: 'full' }
+  { path: '', redirectTo: '/', pathMatch: 'full' }
 
 ];
 

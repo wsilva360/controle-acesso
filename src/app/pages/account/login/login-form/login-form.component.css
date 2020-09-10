@@ -1,6 +1,10 @@
 @media screen {
-  .myDivToPrint { display: none; }
-  .myDivToPrint.show { display: block; }
+  .myDivToPrint {
+    display: none;
+  }
+  .myDivToPrint.show {
+    display: block;
+  }
 }
 
 @media print {
@@ -26,4 +30,11 @@
 .myDivToPrint {
   /* visibility: hidden; */
   text-align: center;
+}
+
+@keyframes ui-progress-spinner-color {
+  100%,
+  0% {
+    stroke: #80b400;
+  }
 }

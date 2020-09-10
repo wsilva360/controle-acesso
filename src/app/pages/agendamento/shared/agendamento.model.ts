@@ -14,7 +14,6 @@ export class Agendamento extends BaseResourceModel {
     public horaAgenda?: string,
     public nomePaciente?: string,
     public itemAgendamento?: ItemAgendamento,
-    public unidadeAtendimento?: UnidadeAtendimento,
     public idConvenio?: number,
     public idConvenioPlano?: number,
 

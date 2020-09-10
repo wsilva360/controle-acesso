@@ -18,17 +18,20 @@ export class LoginFormComponent implements OnInit {
   resourceForm: FormGroup;
   pageTitle: string;
   serverErrorMessages: string[] = null;
+  serverSucessoMessages: string[] = null;
   submittingForm: boolean = false;
 
   isTextFieldType: boolean = false;
   error = '';
   showDialogError: boolean = false;
 
-  item:string;
-  unid:string;
-  data:number = Date.now();
-  dataAgenda:string;
-  imagePath:any;
+  item: string;
+  unid: string;
+  data: number = Date.now();
+  dataAgenda: string;
+  imagePath: any;
+
+  loading: boolean = false;
 
 
   // ATRIBUTOS
@@ -101,34 +104,40 @@ export class LoginFormComponent implements OnInit {
       // Valida Login
       if (this.resourceForm.valid) {
 
+        this.loading = true;
 
         // Authencicação no PoolService - Guardian
         return this.authLoginService.authenticate(this.resourceForm.value)
           //.pipe(first())
           .subscribe(
             data => {
+              this.serverSucessoMessages = ['Entrada autorizada.'];
               console.log("DATA == " + data.beneficiario.prontuario);
               this.item = data.agendamento.itemAgendamento.descricao;
               this.unid = data.agendamento.agenda.unidadeAtendimento.descricao;
               this.dataAgenda = data.agendamento.horaAgenda;
               this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + data.beneficiario.qrCode);
               console.log(this.dataAgenda);
+              setTimeout(() => { window.print() }, 1000);
+
+              setTimeout(() => {this.serverSucessoMessages = null}, 60000);
+
+              this.resourceForm.reset();
+              this.loading = false;
             },
             error => {
               console.log(error.error.message == null);
               this.serverErrorMessages = (error.error.message != null) ? [error.error.message] : ['Erro ao conectar com servidor'];
-            }, () => {
-              setTimeout(() => {window.print()}, 1000);
-            });
+              this.resourceForm.reset();
+              this.loading = false;
+            }
+          );
 
       }
 
       this.formSubmitAttempt = true;
     }
 
-    function delay(ms: number) {
-      return new Promise( resolve => setTimeout(resolve, ms) );
-  }
   }
 
 
